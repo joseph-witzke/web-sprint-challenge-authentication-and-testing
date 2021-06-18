@@ -1,8 +1,10 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const tokenBuilder = require('./token-builder');
+const Users = require('./users-model');
+const { checkCredentials } = require('../middleware/auth-middleware');
 
-router.post('/register', (req, res, next) => {
+router.post('/register', checkCredentials, (req, res, next) => {
   /*
     IMPLEMENT
     You are welcome to build additional middlewares to help with the endpoint's functionality.
@@ -29,7 +31,7 @@ router.post('/register', (req, res, next) => {
       the response body should include a string exactly as follows: "username taken".
   */
   let user = req.body;
-  const rounds = process.env.BCRYPT_ROUNDS || 8; // 2 ^ 8
+  const rounds = process.env.BCRYPT_ROUNDS || 8;
   const hash = bcrypt.hashSync(user.password, rounds);
   user.password = hash;
   Users.add(user)

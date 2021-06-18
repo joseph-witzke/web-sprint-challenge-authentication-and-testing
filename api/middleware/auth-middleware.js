@@ -7,4 +7,13 @@ const checkCredentials = (req, res, next) => {
   }
 };
 
-module.exports = { checkCredentials };
+const checkUsernameExists = (req, res, next) => {
+  const { username } = req.body;
+  if (!username) {
+    res.status(401).json({ message: 'invalid credentials' });
+  } else {
+    next();
+  }
+};
+
+module.exports = { checkCredentials, checkUsernameExists };

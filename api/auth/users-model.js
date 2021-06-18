@@ -12,4 +12,10 @@ function findById(id) {
     .first();
 }
 
-module.exports = { add, findById };
+function findBy(filter) {
+  return db('users')
+    .select('users.id', 'users.username', 'users.password')
+    .where(filter);
+}
+
+module.exports = { add, findById, findBy };
